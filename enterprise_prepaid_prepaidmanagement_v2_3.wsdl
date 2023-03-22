@@ -8,7 +8,7 @@ Build_Date: 2019-07-10T10:40:46.097-0500
     <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" version="v2_2" targetNamespace="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_0">
       <xsd:import namespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types"
                   schemaLocation="enterprise_prepaid_prepaidmanagement_types_v2_3.xsd"/>
-      <xsd:import namespace="http://services.uscellular.com/schema/enterprise/messageheader/v1_0/types" schemaLocation="../../InfraCommon/Interfaces/enterprise_messageheader_types_v1_0.xsd"/>
+      <xsd:import namespace="http://services.uscellular.com/schema/enterprise/messageheader/v1_0/types" schemaLocation="enterprise_messageheader_types_v1_0.xsd"/>
       <xsd:import namespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/messages"
                   schemaLocation="enterprise_prepaid_prepaidmanagement_messages_v2_3.xsd"/>
     </xsd:schema>
