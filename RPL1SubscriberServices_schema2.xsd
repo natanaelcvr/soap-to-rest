@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.aif.amdocs" xmlns:tns="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.aif.amdocs" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.amdocs">
+
+  <xs:import namespace="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.amdocs" schemaLocation="RPL1SubscriberServices_schema1.xsd"/>
+
+  <xs:element name="RPMException" nillable="true" type="ns1:RPMException"/>
+
+  <xs:element name="l9GetCustomerOffersInfo" type="tns:l9GetCustomerOffersInfo"/>
+
+  <xs:element name="l9GetCustomerOffersInfoResponse" type="tns:l9GetCustomerOffersInfoResponse"/>
+
+  <xs:element name="viewAllSubscriberBalanceDetails" type="tns:viewAllSubscriberBalanceDetails"/>
+
+  <xs:element name="viewAllSubscriberBalanceDetailsResponse" type="tns:viewAllSubscriberBalanceDetailsResponse"/>
+
+  <xs:complexType name="subscriberIdentInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:baseSubscriberIdent">
+        <xs:sequence>
+          <xs:element name="subscriberNo" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="baseSubscriberIdent" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="abstractDatatype" abstract="true">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="subscriberPrimaryResourceInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:baseSubscriberIdent">
+        <xs:sequence>
+          <xs:element name="primaryResourceType" type="xs:string" minOccurs="0"/>
+          <xs:element name="primaryResourceValue" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="viewAllSubscriberBalanceDetails">
+    <xs:sequence>
+      <xs:element name="baseSubscriberIdent" type="tns:baseSubscriberIdent" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="viewAllSubscriberBalanceDetailsResponse">
+    <xs:sequence>
+      <xs:element name="BucketBalanceInfo" type="tns:BucketBalanceInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="BucketBalanceInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:AbstractDatatype">
+        <xs:sequence>
+          <xs:element name="bucketHeader" type="tns:BucketHeader" minOccurs="0"/>
+          <xs:element name="olcQueryBalanceInfo" type="tns:olcQueryBalanceInfo" minOccurs="0"/>
+          <xs:element name="rpl9BucketAdditionalInfo" type="tns:RPL9BucketAdditionalInfo" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="AbstractDatatype">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="BucketHeader">
+    <xs:complexContent>
+      <xs:extension base="tns:AbstractDatatype">
+        <xs:sequence>
+          <xs:element name="bucketGeneralInfo" type="tns:BucketGeneralInfo" minOccurs="0"/>
+          <xs:element name="bucketIdInfo" type="tns:bucketIdInfo" minOccurs="0"/>
+          <xs:element name="bucketIdentInfo" type="tns:bucketIdentInfo" minOccurs="0"/>
+          <xs:element name="bucketIndInfo" type="tns:bucketIndInfo" minOccurs="0"/>
+          <xs:element name="bucketOngoingInfo" type="tns:bucketOngoingInfo" minOccurs="0"/>
+          <xs:element name="bucketRcgDateInfo" type="tns:bucketRcgDateInfo" minOccurs="0"/>
+          <xs:element name="bucketStatusInfo" type="tns:bucketStatusInfo" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="BucketGeneralInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:AbstractDatatype">
+        <xs:sequence>
+          <xs:element name="billCycle" type="xs:short"/>
+          <xs:element name="businessEntity" type="xs:int"/>
+          <xs:element name="currency" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9AccumulatedRecharge" type="xs:double"/>
+          <xs:element name="l9AccumulationStartDt" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9ActivationDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9ChargeLftInd" type="xs:byte"/>
+          <xs:element name="l9FirstRcAttempted" type="xs:byte"/>
+          <xs:element name="l9SalesChannel" type="xs:string" minOccurs="0"/>
+          <xs:element name="partitionId" type="xs:short"/>
+          <xs:element name="policyCode" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9AnnivDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9IsGracePeriod" type="xs:byte"/>
+          <xs:element name="l9RemtimeGrace" type="xs:short"/>
+          <xs:element name="l9lastsuspenddate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9NetAmtDue" type="xs:double"/>
+          <xs:element name="l9TaxAmtDue" type="xs:double"/>
+          <xs:element name="l9TotalAmtDue" type="xs:double"/>
+          <xs:element name="l9TaxItems" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9TotalRCAmt" type="xs:double"/>
+          <xs:element name="l9IsGracePeriodInd" type="xs:byte"/>
+          <xs:element name="l9GracePeriodEndDate" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bucketIdInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="atmBucketId" type="xs:string" minOccurs="0"/>
+          <xs:element name="ban" type="xs:int"/>
+          <xs:element name="ben" type="xs:int"/>
+          <xs:element name="crmExternalId" type="xs:string" minOccurs="0"/>
+          <xs:element name="customerId" type="xs:int"/>
+          <xs:element name="imsi" type="xs:string" minOccurs="0"/>
+          <xs:element name="pcn" type="xs:int"/>
+          <xs:element name="pcnName" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bucketIdentInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:baseBucketIdent">
+        <xs:sequence>
+          <xs:element name="bucketId" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="baseBucketIdent" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence/>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bucketIndInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="addBonusInd" type="xs:byte"/>
+          <xs:element name="debtInd" type="xs:byte"/>
+          <xs:element name="firstRcgInd" type="xs:byte"/>
+          <xs:element name="installmentInd" type="xs:byte"/>
+          <xs:element name="loanInd" type="xs:byte"/>
+          <xs:element name="rcgInd" type="xs:byte"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bucketOngoingInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:AbstractDatatype">
+        <xs:sequence>
+          <xs:element name="lastOngoingDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="lastOngoingStep" type="xs:short" minOccurs="0"/>
+          <xs:element name="ongoingBatchUniqueID" type="xs:int" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bucketRcgDateInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="balExpDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="lastRcgDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="lastRcgExpId" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="bucketStatusInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="status" type="xs:byte"/>
+          <xs:element name="statusDate" type="xs:dateTime" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="olcQueryBalanceInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:baseOlcResult">
+        <xs:sequence>
+          <xs:element name="amountPrecision" type="xs:long"/>
+          <xs:element name="balanceAmount" type="xs:double"/>
+          <xs:element name="barringCode" type="xs:long"/>
+          <xs:element name="businessEntity" type="xs:int"/>
+          <xs:element name="creationDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="currencyCode" type="xs:string" minOccurs="0"/>
+          <xs:element name="lastActivityAmount" type="xs:double"/>
+          <xs:element name="lastActivityCode" type="xs:string" minOccurs="0"/>
+          <xs:element name="lastActivityResAmount" type="xs:double"/>
+          <xs:element name="lastTrxId" type="xs:double"/>
+          <xs:element name="lastUpdateDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="pcn" type="xs:long"/>
+          <xs:element name="status" type="xs:string" minOccurs="0"/>
+          <xs:element name="statusDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="totalResAmount" type="xs:double"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="baseOlcResult" abstract="true">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="returnCode" type="xs:long"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RPL9BucketAdditionalInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:AbstractDatatype">
+        <xs:sequence>
+          <xs:element name="bucketTypeCode" type="xs:string" minOccurs="0"/>
+          <xs:element name="mdnStatus" type="xs:byte" minOccurs="0"/>
+          <xs:element name="rpl9QueryRCInfo" type="tns:RPL9QueryRCInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="RPL9QueryRCInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:AbstractDatatype">
+        <xs:sequence>
+          <xs:element name="frequency" type="xs:byte" minOccurs="0"/>
+          <xs:element name="rcDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="totalRCAmount" type="xs:double" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="rpmseq">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="rpmseq" type="xs:int"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="messageRepository" abstract="true">
+    <xs:sequence>
+      <xs:element name="messageId" type="xs:string" minOccurs="0"/>
+      <xs:element name="bundleName" type="xs:string" minOccurs="0"/>
+      <xs:element name="applicationName" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="acmErrorCategory" final="extension restriction">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="l9GetCustomerOffersInfo">
+    <xs:sequence>
+      <xs:element name="subscriberPrimaryResourceInfo" type="tns:subscriberPrimaryResourceInfo" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="l9GetCustomerOffersInfoResponse">
+    <xs:sequence>
+      <xs:element name="rpl9CustomerOfferInfoResponse" type="tns:rpl9CustomerOfferInfoResponse" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="rpl9CustomerOfferInfoResponse">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="l9AnnivDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9BalExpDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9Balance" type="xs:double"/>
+          <xs:element name="l9LastRcgDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9NetAmtDue" type="xs:double"/>
+          <xs:element name="l9NextRcDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9Pcn" type="xs:int"/>
+          <xs:element name="rpl9SubscriberInfo" type="tns:rpl9SubscriberInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="rpl9SubscriberInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="l9ActivationDueAmt" type="xs:double"/>
+          <xs:element name="l9FirstMRC" type="xs:byte"/>
+          <xs:element name="l9PrimResourceVal" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9SubCreationDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9SubStatusDate" type="xs:dateTime" minOccurs="0"/>
+          <xs:element name="l9SubscriberStatus" type="xs:byte"/>
+          <xs:element name="rpl9OfferDetailsInfo" type="tns:rpl9OfferDetailsInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="rpl9OfferDetailsInfo">
+    <xs:complexContent>
+      <xs:extension base="tns:abstractDatatype">
+        <xs:sequence>
+          <xs:element name="l9DiscountAmt" type="xs:double"/>
+          <xs:element name="l9DiscountType" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9OfferDesc" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9OfferId" type="xs:int"/>
+          <xs:element name="l9OfferInstance" type="xs:long"/>
+          <xs:element name="l9OfferLevel" type="xs:byte"/>
+          <xs:element name="l9OfferName" type="xs:string" minOccurs="0"/>
+          <xs:element name="l9RCFrq" type="xs:byte"/>
+          <xs:element name="l9RcAmt" type="xs:double"/>
+          <xs:element name="l9ServiceType" type="xs:byte"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+</xs:schema>
+

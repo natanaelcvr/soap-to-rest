@@ -1,0 +1,346 @@
+<!-- 
+Jira_Tracking_ID: DevJIRA-IPE-153
+Build_Label: JDeveloperBuild
+Build_Date: 2019-07-10T10:40:46.097-0500
+--><xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" version="v2_2" targetNamespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/messages" xmlns:enterprise_prepaid_prepaidmanagement_messages="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/messages" xmlns:enterprise_prepaid_prepaidmanagement_xsd="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:enterprise_common_xsd="http://services.uscellular.com/schema/enterprise/common/v2_0/types">
+  <xsd:annotation>
+    <xsd:documentation>ESB IDD#165 IDD#2012. This interface supports the recharge payment methods via Self Service: voucher,
+                            credit/debit card and cash which is available only for dealers. The interface also supports a recharge on the account in a credit. 
+                            This interface also supports RPL's View All Subscriber Balance details API and will be used by client applications to fetch the 
+                            subscriber details like Subscriber's balance, bucket information, last recharge date etc.</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types"
+              schemaLocation="enterprise_prepaid_prepaidmanagement_types_v2_3.xsd"/>
+  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v2_0/types" schemaLocation="../../InfraCommon/Interfaces/enterprise_common_types_v2_0.xsd"/>
+  <xsd:element name="getSubscriberBalanceDetails_Request" type="enterprise_prepaid_prepaidmanagement_messages:getSubscriberBalanceDetails_RequestType"/>
+  <xsd:annotation>
+    <xsd:documentation>Complex type for Subscriber's MDN information</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="getSubscriberBalanceDetails_RequestType">
+    <xsd:annotation>
+      <xsd:documentation>Complex type for Subscriber's MDN information</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="subscriberPrimaryResource" type="enterprise_prepaid_prepaidmanagement_xsd:SubscriberPrimaryResourceType">
+        <xsd:annotation>
+          <xsd:documentation>This structure has Subscriber's MDN information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getSubscriberBalanceDetails_Response" type="enterprise_prepaid_prepaidmanagement_messages:getSubscriberBalanceDetails_ResponseType"/>
+  <xsd:complexType name="getSubscriberBalanceDetails_ResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Complex type for Bucket and Balance details fetched from Amdocs Balance Manager system.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="response" type="enterprise_common_xsd:ResponseType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>response code and response description</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketBalanceInformation" type="enterprise_prepaid_prepaidmanagement_xsd:BucketBalanceInformationType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>Bucket and Balance details fetched from Amdocs Balance Manager system.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="replenish_Request" type="enterprise_prepaid_prepaidmanagement_messages:replenish_RequestType"/>
+  <xsd:complexType name="replenish_RequestType">
+    <xsd:annotation>
+      <xsd:documentation>Channel info of Agent, IVR or account credit on CTN information of subscriber and the recharge method.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="channelInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BaseChannelInfoType">
+        <xsd:annotation>
+          <xsd:documentation>Agent, IVR or account credit channel information.
+                                   Agents: Use this structure when invoking RPL API via Datascape (USCC Agents).
+                                   IVR: Use this structure when invoking RPL API via IVR.
+                                   ESB: Use this structure when invoking RPL API via Credit Processor</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="baseRegularRechargeMethod" type="enterprise_prepaid_prepaidmanagement_xsd:BaseRegularRechargeMethodType">
+        <xsd:annotation>
+          <xsd:documentation>Use this recharge method as 
+           the input when invoking the RPL API for performing cash recharge.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="subscriberPrimaryResource" type="enterprise_prepaid_prepaidmanagement_xsd:SubscriberPrimaryResourceType">
+        <xsd:annotation>
+          <xsd:documentation>Subscriber's CTN information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="replenish_Response" type="enterprise_prepaid_prepaidmanagement_messages:replenish_ResponseType"/>
+  <xsd:complexType name="replenish_ResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Amount, Status, Date, Bucket info and other information about recharge.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rechargeIdentInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeIdentInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Identification Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeDatesInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeDatesInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Dates Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeAmountsInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeAmountsInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Amounts Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeBalanceExpirationInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeBalanceExpirationInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Balance Expiration Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeLogInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeLogInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Log Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeStatusInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeStatusInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Status Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeTypeInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeTypeInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Type Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeBucketInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeBucketInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Bucket Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeSubscriberInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeSubscriberInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Subscriber Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="accumulationsAmounts" type="enterprise_prepaid_prepaidmanagement_xsd:AccumulationsAmountsInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Accumulations amounts Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="cancelReplenish_Request" type="enterprise_prepaid_prepaidmanagement_messages:cancelReplenish_RequestType"/>
+  <xsd:annotation>
+    <xsd:documentation>Agent Channel Information, Bucket information and cancel recharge information</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="cancelReplenish_RequestType">
+    <xsd:annotation>
+      <xsd:documentation>Agent Channel Information, Bucket information and cancel recharge information</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="channelInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BaseChannelInfoType">
+        <xsd:annotation>
+          <xsd:documentation>Agents channel information.
+                                    Agents: Use this structure when invoking RPL API via Datascape (USCC Agents).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cancelRechargeMethod" type="enterprise_prepaid_prepaidmanagement_xsd:BaseCancelRechargeMethodType">
+        <xsd:annotation>
+          <xsd:documentation>Use this recharge method as the input when invoking the RPL API to cancel recharge.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="baseBucketIdent" type="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <xsd:annotation>
+          <xsd:documentation>Base bucket identification information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="cancelReplenish_Response" type="enterprise_prepaid_prepaidmanagement_messages:cancelReplenish_ResponseType"/>
+  <xsd:annotation>
+    <xsd:documentation>Information about recharge. Accumulated amount, recharge amount, recharge date, BucketInfo
+      Rechargetype and recharge status.
+      </xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="cancelReplenish_ResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Information about recharge. Accumulated amount, recharge amount, recharge date, BucketInfo
+         Rechargetype and recharge status.
+         </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="accumulationsAmounts" type="enterprise_prepaid_prepaidmanagement_xsd:AccumulationsAmountsInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Accumulations amounts Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeAmountsInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeAmountsInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Amounts Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeBalanceExpirationInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeBalanceExpirationInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Balance Expiration Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeBucketInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeBucketInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Bucket Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeDatesInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeDatesInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Dates Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeIdentInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeIdentInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Identification Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeLogInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeLogInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Log Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeStatusInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeStatusInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Status Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeSubscriberInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeSubscriberInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Subscriber Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeTypeInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeTypeInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Type Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="recharge_Request" type="enterprise_prepaid_prepaidmanagement_messages:recharge_RequestType"/>
+  <xsd:complexType name="recharge_RequestType">
+    <xsd:annotation>
+      <xsd:documentation>Channel and Bucket information, CTN number for BaseVoucher recharge request type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="channelInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BaseChannelInfoType">
+        <xsd:annotation>
+          <xsd:documentation>Voucher recharge channel information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="baseVoucherRechargeMethod" type="enterprise_prepaid_prepaidmanagement_xsd:BaseVoucherRechargeMethodType">
+        <xsd:annotation>
+          <xsd:documentation>Use this recharge method as the input when invoking the RPL API for performing cash recharge.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="baseBucketIdent" type="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <xsd:annotation>
+          <xsd:documentation>Subscriber's bucket ID that needs to be recharged.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="subscriberPrimaryResource" type="enterprise_prepaid_prepaidmanagement_xsd:SubscriberPrimaryResourceType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Subscriber's CTN information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="recharge_Response" type="enterprise_prepaid_prepaidmanagement_messages:recharge_ResponseType"/>
+  <xsd:complexType name="recharge_ResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Recharge information with Amount, Date and Identification information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rechargeIdentInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeIdentInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Identification Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="voucherRechargeDatesInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeDatesInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Dates Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeAmountsInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeAmountsInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Amounts Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeBalanceExpirationInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeBalanceExpirationInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Balance Expiration Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeLogInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeLogInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Log Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeStatusInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeStatusInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Status Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeTypeInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeTypeInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Type Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeBucketInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeBucketInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Bucket Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rechargeSubscriberInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeSubscriberInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Recharge Subscriber Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="accumulationsAmounts" type="enterprise_prepaid_prepaidmanagement_xsd:AccumulationsAmountsInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Accumulations amounts Information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getCustomerOffersInfo_Request" type="enterprise_prepaid_prepaidmanagement_messages:getCustomerOffersInfo_RequestType"/>
+  <xsd:annotation>
+    <xsd:documentation>Complex type for Subscriber's MDN information</xsd:documentation>
+  </xsd:annotation>
+  <xsd:complexType name="getCustomerOffersInfo_RequestType">
+    <xsd:annotation>
+      <xsd:documentation>Complex type for Subscriber's MDN information</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="subscriberPrimaryResource" type="enterprise_prepaid_prepaidmanagement_xsd:SubscriberPrimaryResourceType">
+        <xsd:annotation>
+          <xsd:documentation>This structure has Subscriber's MDN information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:element name="getCustomerOffersInfo_Response" type="enterprise_prepaid_prepaidmanagement_messages:getCustomerOffersInfo_ResponseType"/>
+  <xsd:complexType name="getCustomerOffersInfo_ResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Complex type for offer and balance details of a customer</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="response" type="enterprise_common_xsd:ResponseType" minOccurs="1">
+        <xsd:annotation>
+          <xsd:documentation>response code and response description</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="CustomerOfferInfoResponse" type="enterprise_prepaid_prepaidmanagement_xsd:CustomerOfferInfoResponseType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Returns offer and balance details of a customer.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:schema>

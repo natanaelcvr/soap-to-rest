@@ -1,0 +1,1953 @@
+<!-- 
+Jira_Tracking_ID: DevJIRA-IPE-153
+Build_Label: JDeveloperBuild
+Build_Date: 2019-07-10T10:40:46.097-0500
+--><xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" version="v2_2" targetNamespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types" xmlns:enterprise_prepaid_prepaidmanagement_xsd="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types" xmlns:enterprise_common_xsd="http://services.uscellular.com/schema/enterprise/common/v1_0/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:annotation>
+    <xsd:documentation>ESB IDD#165 IDD#2012.</xsd:documentation>
+  </xsd:annotation>
+  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v1_0/types" schemaLocation="../../InfraCommon/Interfaces/enterprise_common_types_v1_0.xsd"/>
+  <!--Types-->
+  <xsd:simpleType name="BucketIdType">
+    <xsd:annotation>
+      <xsd:documentation>The bucket ID.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="BucketTypeCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Contains 2 character codes(e.g. UP for UPrepaid,
+				PI for PiB and similarly for other policies).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="BusinessEntityType">
+    <xsd:annotation>
+      <xsd:documentation>The business entity of the payment channel number.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:pattern value="\d{0,9}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CCAuthRequestIDType">
+    <xsd:annotation>
+      <xsd:documentation>Credit Card Authentication Request ID.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="0"/>
+      <xsd:maxLength value="45"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CCAuthorizationCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Authorization Code returned by Payment Gateway.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="45"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CCLast4DigitsType">
+    <xsd:annotation>
+      <xsd:documentation>Last 4 digits of Credit card.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="4"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CCMerchantIDType">
+    <xsd:annotation>
+      <xsd:documentation>A merchant ID allows a business to be identified
+				by the banks and credit card institutions, in order to accept credit
+				card payments.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="30"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CCMerchantRefIDType">
+    <xsd:annotation>
+      <xsd:documentation>Credit Card Merchant Reference ID.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="45"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ClientTransactionIdType">
+    <xsd:annotation>
+      <xsd:documentation>The client transaction ID (this can be populated
+				when the client application generates their own transaction ID).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="0"/>
+      <xsd:maxLength value="15"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CoverDebitIndType">
+    <xsd:annotation>
+      <xsd:documentation>Indicates Indicates if the debt is covered.
+				Possible values:
+				Y: Debt is covered.
+				N: Debt is not covered.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="Y|N"/>
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CreditCardTypeType">
+    <xsd:annotation>
+      <xsd:documentation>Contains the credit card type, such as Visa (VS)
+				or MasterCard (MC).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="CurrencyCodeType">
+    <xsd:annotation>
+      <xsd:documentation>The recharge currency code.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ExemptionTypeType">
+    <xsd:annotation>
+      <xsd:documentation>The exemption type and possible values are None,
+				Service, Customer</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="N|S|C"/>
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="IdentifierType">
+    <xsd:annotation>
+      <xsd:documentation>The unique object identifier that was sent in the
+				input.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:pattern value="\d{0,9}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="KeyType">
+    <xsd:annotation>
+      <xsd:documentation>The Key.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:short"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="NoOfRechargeDaysType">
+    <xsd:annotation>
+      <xsd:documentation>The recharge number of days.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="PaySourceIdType">
+    <xsd:annotation>
+      <xsd:documentation>The payment source ID.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="0"/>
+      <xsd:maxLength value="240"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PaySourceTypeType">
+    <xsd:annotation>
+      <xsd:documentation>The payment source type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="Y|N"/>
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PcnType">
+    <xsd:annotation>
+      <xsd:documentation>The payment channel number (a unique reference to
+				the Online Charging payment account).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:pattern value="\d{0,9}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="PinNumberType">
+    <xsd:annotation>
+      <xsd:documentation>Voucher serial number.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="PrepaidDateTimeType">
+    <xsd:annotation>
+      <xsd:documentation>UTC Time of authorization. Format:
+				YYYY-MM-DDThh:mm:ssZ
+				Example: 2005-08-11T22:47:57Z is
+				equal to August 11, 2005, at 10:47:57 P.M.
+				The T separates the date and the time.
+				The Z indicates UTC. Milliseconds optional.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:dateTime"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="PrimaryResourceTypeType">
+    <xsd:annotation>
+      <xsd:documentation>The primary resource type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="C|MDN"/>
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="3"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RcgStatusType">
+    <xsd:annotation>
+      <xsd:documentation>The payment source type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="V|C"/>
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ReasonCode">
+    <xsd:annotation>
+      <xsd:documentation>Indicates Indicates if the debt is covered.
+				Possible values:
+				Y: Debt is covered.
+				N: Debt is not covered.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="0"/>
+      <xsd:maxLength value="50"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="RechargeIdType">
+    <xsd:annotation>
+      <xsd:documentation>The recharge ID.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="RechargeTypeType">
+    <xsd:annotation>
+      <xsd:documentation>The recharge type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="R|F"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="ReferenceIdType">
+    <xsd:annotation>
+      <xsd:documentation>The payment channel ID. The channel (client
+				application) application ID (this is stored as the main ID of the
+				client application and can be populated with any value).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="0"/>
+      <xsd:maxLength value="45"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SelectCriteriaType">
+    <xsd:annotation>
+      <xsd:documentation>Voucher serial number.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="SerialNumberType">
+    <xsd:annotation>
+      <xsd:documentation>Voucher serial number.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:length value="20"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="StatusIndType">
+    <xsd:annotation>
+      <xsd:documentation>Status Indicator.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="SubIdentifierType">
+    <xsd:annotation>
+      <xsd:documentation>The object sub-identifier that was sent in the
+				input.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:int">
+      <xsd:pattern value="\d{0,9}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TaxAuthorityType">
+    <xsd:annotation>
+      <xsd:documentation>The tax authority (for example, 01).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="7"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TaxCodeType">
+    <xsd:annotation>
+      <xsd:documentation>The tax code.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="6"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TaxGeoCodeType">
+    <xsd:annotation>
+      <xsd:documentation>Geocode used for Tax calculation.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="10"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TaxItemSummaryType">
+    <xsd:annotation>
+      <xsd:documentation>Comma seperated list of tax items.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="256"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TaxTypeType">
+    <xsd:annotation>
+      <xsd:documentation>The tax type (for example, C99).</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="6"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="TimestampType">
+    <xsd:annotation>
+      <xsd:documentation>Long timestamp, in milliseonds.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:long"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="UniqueValueType">
+    <xsd:annotation>
+      <xsd:documentation>Voucher serial number.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <xsd:simpleType name="VoucherIdType">
+    <xsd:annotation>
+      <xsd:documentation>Voucher ID.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+  <!--Structures-->
+  <xsd:complexType name="AccumulationsAmountsInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Accumulations amounts
+				Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="instlAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The installment amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="regBonusAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The regular bonus amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="addBonusAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The additional bonus amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="reduceAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The reduce-by amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="debtAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The debt amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="createChargeAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The create charge amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="loanAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The loan amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AgentsChannelInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Concrete type for the Agents channel information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseChannelInfoType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Concrete 
+					type for the Agents channel information.</xsd:documentation> </xsd:annotation>-->
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AtmIdInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Atm Id information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Atm 
+					Id information.</xsd:documentation> </xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="atmBucketId" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The atm bucket ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="AttributeType">
+    <xsd:annotation>
+      <xsd:documentation>Container holding name value pairs.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="name" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The name of the attribute.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="value" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The value of the attribute.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="AttributeListType">
+    <xsd:annotation>
+      <xsd:documentation>Container holding name value pairs.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="attribute" type="enterprise_prepaid_prepaidmanagement_xsd:AttributeType" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>A set of attributes for journaling.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BaseBucketIdentType" abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>Base Bucket identifaction information.</xsd:documentation>
+    </xsd:annotation>
+  </xsd:complexType>
+  <xsd:complexType name="BaseCancelRechargeMethodType">
+    <xsd:annotation>
+      <xsd:documentation>Use this recharge method as the input when
+				invoking the RPL API to cancel recharge.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseRechargeMethodType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Use 
+					this recharge method as the input when invoking the RPL API to cancel recharge.</xsd:documentation> 
+					</xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="rechargeId" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeIdType">
+            <xsd:annotation>
+              <xsd:documentation>The recharge ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="rechargeType" type="enterprise_prepaid_prepaidmanagement_xsd:RechargeTypeType">
+            <xsd:annotation>
+              <xsd:documentation>The recharge type.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BaseChannelInfoType" abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Agents, IVR channel or Credit Processor
+				information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="referenceId" type="enterprise_prepaid_prepaidmanagement_xsd:ReferenceIdType">
+        <xsd:annotation>
+          <xsd:documentation>The payment channel ID. The channel (client
+						application) application ID (this is stored as the main ID of the
+						client application and can be populated with any value).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="requestDateTime" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>The payment channel request date. This is the
+						date and time that the channel requests the activity.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="clientTransactionId" type="enterprise_prepaid_prepaidmanagement_xsd:ClientTransactionIdType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The client transaction ID (this can be populated
+						when the client application generates their own transaction ID).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BaseRechargeMethodType" abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>Base recharge method information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="paySourceId" type="enterprise_prepaid_prepaidmanagement_xsd:PaySourceIdType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The payment source ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="paySourceType" type="enterprise_prepaid_prepaidmanagement_xsd:PaySourceTypeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The payment source type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BaseRegularRechargeMethodType" abstract="true">
+    <xsd:annotation>
+      <xsd:documentation>Use this recharge method as the input when
+				invoking the RPL API for performing cash recharge.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseRechargeMethodType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Use 
+					this recharge method as the input when invoking the RPL API for performing 
+					cash recharge.</xsd:documentation> </xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="amount" type="xsd:double">
+            <xsd:annotation>
+              <xsd:documentation>The recharge amount excluding tax (amount to
+								be added to the balance).</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="currency" type="enterprise_prepaid_prepaidmanagement_xsd:CurrencyCodeType">
+            <xsd:annotation>
+              <xsd:documentation>The recharge currency code (as defined in ISO
+								4217).</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BaseVoucherRechargeMethodType">
+    <xsd:annotation>
+      <xsd:documentation>Use this recharge method as the input when
+				invoking the RPL API for performing voucher recharge.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseRechargeMethodType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Use 
+					this recharge method as the input when invoking the RPL API for performing 
+					voucher recharge.</xsd:documentation> </xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="serialNumber" type="enterprise_prepaid_prepaidmanagement_xsd:SerialNumberType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Voucher serial number</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="coverDebitInd" type="enterprise_prepaid_prepaidmanagement_xsd:CoverDebitIndType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Indicates if the debt is covered.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="pinNumber" type="enterprise_prepaid_prepaidmanagement_xsd:PinNumberType">
+            <xsd:annotation>
+              <xsd:documentation>Voucher pin number.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="selectCriteria" type="enterprise_prepaid_prepaidmanagement_xsd:SelectCriteriaType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Voucher select criteria.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="uniqueValue" type="enterprise_prepaid_prepaidmanagement_xsd:UniqueValueType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Voucher unique value.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BucketBalanceInformationType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket and Balance details fetched from Amdocs
+				Balance Manager system.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="bucketHeader" type="enterprise_prepaid_prepaidmanagement_xsd:BucketHeaderType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket header information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="olcQueryBalanceInfo" type="enterprise_prepaid_prepaidmanagement_xsd:OlcQueryBalanceInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Olc query balance information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rpl9BucketAdditionalInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RPL9BucketAdditionalInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket addition information. Subscriber Status,
+						Rechrge amount, Anniversary date and Product type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketGeneralInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket general information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="policyCode" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The Policy code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="currency" type="enterprise_prepaid_prepaidmanagement_xsd:CurrencyCodeType">
+        <xsd:annotation>
+          <xsd:documentation>The currency code (as defined in ISO 4217).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="billCycle" type="xsd:short">
+        <xsd:annotation>
+          <xsd:documentation>Identifies the bill cycle.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="partitionId" type="xsd:short">
+        <xsd:annotation>
+          <xsd:documentation>The the Online Charging partition ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="businessEntity" type="enterprise_prepaid_prepaidmanagement_xsd:BusinessEntityType">
+        <xsd:annotation>
+          <xsd:documentation>Identifies the Business Entity.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="activationDate" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>Date when subscriber is created in RPL.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="accumulatedRecharge" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Identifies the Business Entity.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="accumulationStartDt" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Date when subscriber is created in RPL.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="annivDate" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Identifies the Business Entity.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="chargeLftInd" type="xsd:byte" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Date when subscriber is created in RPL.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="firstRcAttempted" type="xsd:byte" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicator to check if first RC was attempted or not.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="salesChannel" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Sales channel</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isGracePeriod" type="xsd:byte" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicator to check if bucket is eligible for grace period or not.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="netAmtDue" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Net amount due on AD to process all active and pending MRCs.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="remtimeGrace" type="xsd:short" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Rem time Grace.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxAmtDue" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Calculated tax on net amount due.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxItems" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Tax breakdown .</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalAmtDue" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Sum of Net amount due and tax amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastsuspenddate" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Last suspension date or resume date of an account.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalRCAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Total RC Amount due for customer after multiline discount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="isGracePeriodInd" type="xsd:byte" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicator to show if customer is already under grace period or not. 'Y' - is in grace period, 'N' - not in grace period</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="gracePeriodEndDate" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Date when subscriber moves out from grace period. If subscriber is not under grace period, it will contain a null value</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketHeaderType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket header information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="bucketIdentInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketIdentInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket identification information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketOngoingInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketOngoingInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket ongoing information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketIndInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketIndInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket Ind information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketRcgDateInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketRechargeDatesInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket recharge date information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketStatusInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketStatusInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket status information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketGeneralInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketGeneralInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket general information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketIdInfo" type="enterprise_prepaid_prepaidmanagement_xsd:BucketIdInfoType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Bucket Id information.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketIdInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket Id information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="faId" type="enterprise_common_xsd:FaIdType">
+        <xsd:annotation>
+          <xsd:documentation>The billing account number (BAN).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bar" type="enterprise_common_xsd:BarType">
+        <xsd:annotation>
+          <xsd:documentation>The billing arrangement.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pcn" type="enterprise_prepaid_prepaidmanagement_xsd:PcnType">
+        <xsd:annotation>
+          <xsd:documentation>The payment channel number (a unique reference
+						to the Online Charging payment account).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pcnName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The customer name associated with the payment
+						channel number.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customerId" type="enterprise_common_xsd:CustomerIdType">
+        <xsd:annotation>
+          <xsd:documentation>The customer ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="atmBucketId" type="enterprise_prepaid_prepaidmanagement_xsd:BucketIdType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The ATM bucket ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="crmExternalId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The external Amdocs Billing Customer Manager ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="imsi" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The external mobile ID (IMSI).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketIdentInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Recharge Bucket Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <!--<xsd:annotation> <xsd:documentation>Recharge Bucket Information.</xsd:documentation> 
+					</xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="bucketId" type="enterprise_prepaid_prepaidmanagement_xsd:BucketIdType">
+            <xsd:annotation>
+              <xsd:documentation>The bucket ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BucketIndInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket Ind information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="installmentInd" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicates an installment.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="loanInd" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicates a loan.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="debtInd" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicates a debt.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="addBonusInd" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicates an additional bonus.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="firstRcgInd" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicates a first recharge.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rcgInd" type="xsd:boolean" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Indicates a recharge.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketOngoingInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket ongoing information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="lastOngoingStep" type="xsd:short" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The number of the last step of the Ongoing
+						process.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastOngoingDate" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The date of the last Ongoing process.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ongoingBatchUniqueID" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The unique ID for each run of the Ongoing
+						Treatment batch process.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketRechargeDatesInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Dates Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="balExpDate" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>The Balance expiration date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastRcgExpId" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The ID of the last Recharge expiration.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastRcgDate" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>The date of the last Recharge.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="BucketStatusInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Bucket status information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="status" type="enterprise_prepaid_prepaidmanagement_xsd:StatusIndType">
+        <xsd:annotation>
+          <xsd:documentation>The status of the bucket.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="statusDate" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The date of the bucket status.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CashRechargeMethodInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Tax information, tax geo code and method for
+				performing cash recharge.
+				Use this recharge method as the input when invoking the RPL API for
+				performing cash recharge.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseRegularRechargeMethodType">
+        <xsd:annotation>
+          <xsd:documentation>Use this recharge method as the input when
+						invoking the RPL API for performing cash recharge.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="coverDebitInd" type="enterprise_prepaid_prepaidmanagement_xsd:CoverDebitIndType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Indicates if the debt is covered.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="taxAmount" type="xsd:double">
+            <xsd:annotation>
+              <xsd:documentation>Tax amount.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="taxGeoCode" type="enterprise_prepaid_prepaidmanagement_xsd:TaxGeoCodeType">
+            <xsd:annotation>
+              <xsd:documentation>Geocode used for Tax calculation.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="taxResponseInfo" type="enterprise_prepaid_prepaidmanagement_xsd:TaxItemsType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+              <xsd:documentation>The tax details as returned by Invoicing
+								calculate Tax API.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="BillReducerCreditMethodInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Reason code for performing bill reducer credit.
+				Use this credit method as the input when invoking the RPL API for
+				performing bill reducer credits.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseRegularRechargeMethodType">
+        <xsd:annotation>
+          <xsd:documentation>Use this credit method as the input when
+						invoking the RPL API for performing bill reducer credits.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="reasonCode" type="enterprise_prepaid_prepaidmanagement_xsd:ReasonCode" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Reson code for applying credit to account.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="taxAmount" type="xsd:double">
+            <xsd:annotation>
+              <xsd:documentation>Tax amount.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="ExternalIdInfoType">
+    <xsd:annotation>
+      <xsd:documentation>External Id information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>External 
+					Id information.</xsd:documentation> </xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="externalId" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The external ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="InCommVoucherRechargeMethodInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Complex type for holding the voucher id
+				information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:CashRechargeMethodInfoType">
+        <xsd:sequence>
+          <xsd:element name="voucherId" type="enterprise_prepaid_prepaidmanagement_xsd:VoucherIdType">
+            <xsd:annotation>
+              <xsd:documentation>The voucher id.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="IvrChannelInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Concrete type for the IVR channel information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseChannelInfoType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Concrete 
+					type for the IVR channel information.</xsd:documentation> </xsd:annotation>-->
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="CreditProcessorChannelInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Concrete type for the Credit Processor channel information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseChannelInfoType"/>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="OlcQueryBalanceInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Olc query balance information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="pcn" type="enterprise_prepaid_prepaidmanagement_xsd:PcnType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The payment channel number (a unique reference
+						to the Online Charging payment account).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="status" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The state of the balance.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="statusDate" type="xsd:date" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The change date of the balance state.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="balanceAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The balance amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="amountPrecision" type="xsd:short" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The precesion of the balance amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalResAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The total reserved amount in all open sessions.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="currencyCode" type="enterprise_prepaid_prepaidmanagement_xsd:CurrencyCodeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The currency code (as defined in ISO 4217) of
+						the balance amount charge (it also applies to the reserved
+						amounts).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="businessEntity" type="enterprise_prepaid_prepaidmanagement_xsd:BusinessEntityType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The business entity of the payment channel
+						number.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastTrxId" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The ID of the last transaction.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastActivityCode" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The code of the last balance transaction
+						activity.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastActivityAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The amount of the last balance transaction
+						activity.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastActivityResAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The last activity reserved amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="barringCode" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The barring code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="creationDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The date and time of the record creation).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastUpdateDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The date and time of the record creation.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="returnCode" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The error code that was returned from Online
+						Charging.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RPL9QueryRCInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Anniversary date details.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="frequency" type="xsd:byte">
+        <xsd:annotation>
+          <xsd:documentation>The RC frequency. M, D, W
+               are the possible values.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rcDate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>Contains the next RC date(Anniversary date).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="totalRCAmount" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>Contains the total recharge amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RPL9BucketAdditionalInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Holds the bucket addition information like
+				Subscriber Status, Rechrge amount, Anniversary date and Product
+				type.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="bucketTypeCode" type="enterprise_prepaid_prepaidmanagement_xsd:BucketTypeCodeType">
+        <xsd:annotation>
+          <xsd:documentation>Contains the code which is an indicator to
+						determine PiB or U Prepaid etc.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="mdnStatus" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>Contains the MDN status.A = ACTIVE, C =
+						CANCELLED, S = SUSPENDED are possible values.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rpl9QueryRCInfo" type="enterprise_prepaid_prepaidmanagement_xsd:RPL9QueryRCInfoType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>Anniversary date details.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OneTimeCCRechargeMethodInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Credit card information details used for recharge.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:CashRechargeMethodInfoType">
+        <xsd:annotation>
+          <xsd:documentation>Use this recharge method as the input when
+						invoking the RPL API for performing one-time credit card recharge.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="ccLast4Digits" type="enterprise_prepaid_prepaidmanagement_xsd:CCLast4DigitsType">
+            <xsd:annotation>
+              <xsd:documentation>Last 4 digits of Credit card.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ccExpirationDate" type="xsd:date">
+            <xsd:annotation>
+              <xsd:documentation>Credit card expiration date.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="creditCardType" type="enterprise_prepaid_prepaidmanagement_xsd:CreditCardTypeType">
+            <xsd:annotation>
+              <xsd:documentation>Contains the credit card type, such as Visa
+								(VS) or MasterCard (MC).</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ccAuthRequestID" type="enterprise_prepaid_prepaidmanagement_xsd:CCAuthRequestIDType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Credit Card Authentication Request ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ccMerchantID" type="enterprise_prepaid_prepaidmanagement_xsd:CCMerchantIDType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Credit Card Merchant ID that processed the
+								original authorization.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ccMerchantRefID" type="enterprise_prepaid_prepaidmanagement_xsd:CCMerchantRefIDType">
+            <xsd:annotation>
+              <xsd:documentation>Credit Card Merchant Reference ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="ccAuthorizationCode" type="enterprise_prepaid_prepaidmanagement_xsd:CCAuthorizationCodeType" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Authorization Code returned by Payment
+								Gateway.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PcnInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Pcn information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Pcn 
+					information.</xsd:documentation> </xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="pcn" type="enterprise_prepaid_prepaidmanagement_xsd:PcnType">
+            <xsd:annotation>
+              <xsd:documentation>Pcn number.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+          <xsd:element name="pcnPaymentCategory" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+              <xsd:documentation>Pcn payment category.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="PcnNameInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Pcn name information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:BaseBucketIdentType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Pcn 
+					name information.</xsd:documentation> </xsd:annotation>-->
+        <xsd:sequence>
+          <xsd:element name="pcnName" type="xsd:string">
+            <xsd:annotation>
+              <xsd:documentation>The external ID.</xsd:documentation>
+            </xsd:annotation>
+          </xsd:element>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeAmountsInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Amounts Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="inputCurrency" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The input currency code (as defined in ISO
+						4217).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="inputAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The input amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rcgChlAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The recharge channel amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ppsBalance" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The online charging balance.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ppsNewBalance" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The online charging new balance.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ppsAmt" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The online charging amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The tax amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxGeoCode" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The tax geocode.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxItems" type="enterprise_prepaid_prepaidmanagement_xsd:TaxItemSummaryType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The tax items.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeBalanceExpirationInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Balance Expiration
+				Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rcgNumOfDays" type="enterprise_prepaid_prepaidmanagement_xsd:NoOfRechargeDaysType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The recharge number of days.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="balExpDateCalc" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The calculated balance expiration date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeBucketInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Bucket Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="bucketId" type="enterprise_prepaid_prepaidmanagement_xsd:BucketIdType">
+        <xsd:annotation>
+          <xsd:documentation>The bucket ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="faId" type="enterprise_common_xsd:FaIdType">
+        <xsd:annotation>
+          <xsd:documentation>The billing account number (BAN).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bar" type="enterprise_common_xsd:BarType">
+        <xsd:annotation>
+          <xsd:documentation>The billing arrangement.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pcn" type="enterprise_prepaid_prepaidmanagement_xsd:PcnType">
+        <xsd:annotation>
+          <xsd:documentation>The payment channel number (a unique reference
+						to the Online Charging payment account).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pcnName" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The customer name associated with the payment
+						channel number.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customerId" type="enterprise_common_xsd:CustomerIdType">
+        <xsd:annotation>
+          <xsd:documentation>The customer ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="crmExternalId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The external Amdocs Billing Customer Manager ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Currency" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The currency code (as defined in ISO 4217).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="balExpDate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>The balance expiration date, must be UTC.
+						Format: YYYY-MM-DDThh:mm:ssZ
+						Example: 2005-08-11T22:47:57Z is equal to August 11, 2005, at 10:47:57
+						P.M. UTC.
+						The T separates the date and the time.
+						The Z indicates UTC.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeDatesInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Dates Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rcgRefDate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>The recharge reference date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="processDate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>The recharge process date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="logicalDate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>The logical date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rcgReqDate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType">
+        <xsd:annotation>
+          <xsd:documentation>The recharge request date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeIdentInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Identification
+				Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rcgId" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The recharge ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="periodKey" type="enterprise_prepaid_prepaidmanagement_xsd:KeyType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The period key.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="bucketKey" type="enterprise_prepaid_prepaidmanagement_xsd:KeyType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The bucket key.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeLogInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Log Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rmdMainId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The recharge method main ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rmdVals" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The recharge values.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cdMainId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The channel details main ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cdVals" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The channel details values.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cdUniqueId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The channel details unique ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="clientTimeStamp" type="enterprise_prepaid_prepaidmanagement_xsd:TimestampType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The client timestamp.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="radTimeStamp" type="enterprise_prepaid_prepaidmanagement_xsd:TimestampType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The Replenishment Adaptor timestamp.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rplTimeStamp" type="enterprise_prepaid_prepaidmanagement_xsd:TimestampType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The Replenishment timestamp.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="subIdVals" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The subscriber ID values.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ccAuthRequestID" type="enterprise_prepaid_prepaidmanagement_xsd:CCAuthRequestIDType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The credit card authorization request Id.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ccAuthorizationCode" type="enterprise_prepaid_prepaidmanagement_xsd:CCAuthorizationCodeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The credit card authorization code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ccExpDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The credit card expiration date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ccLast4Digits" type="enterprise_prepaid_prepaidmanagement_xsd:CCLast4DigitsType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The credit card last four digits.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ccMerchantRefID" type="enterprise_prepaid_prepaidmanagement_xsd:CCMerchantRefIDType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The credit card merchant reference Id.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="creditCardType" type="enterprise_prepaid_prepaidmanagement_xsd:CreditCardTypeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The credit card type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="offerDetails" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The offer details.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rcDetails" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The rc details.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxAmount" type="xsd:double" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The tax amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxGeoCode" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The tax geo code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxItems" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The tax items.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeStatusInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Subscriber
+				Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="rcgStatus" type="enterprise_prepaid_prepaidmanagement_xsd:RcgStatusType">
+        <xsd:annotation>
+          <xsd:documentation>The recharge status.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="lastStatusUpdate" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidDateTimeType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The date and time of the last status update.
+						Format: YYYY-MM-DDThh:mm:ssZ
+						Example: 2005-08-11T22:47:57Z is equal to August 11, 2005, at 10:47:57
+						P.M.
+						The T separates the date and the time.
+						The Z indicates UTC.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="relRcgType" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The release recharge type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cdCancelRefId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The recharge channel details cancel reference
+						ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cancelRcgType" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The cancel recharge type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="relRcgId" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The release recharge ID.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeSubscriberInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Subscriber
+				Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="subscriberNo" type="enterprise_common_xsd:CtnType">
+        <xsd:annotation>
+          <xsd:documentation>The subscriber number as received from Amdocs
+						Billing Customer Manager.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="primaryResourceType" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The primary resource type, for example, M.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="primaryResourceValue" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The primary resource value, for example, a
+						MSISDN.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="RechargeTypeInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Recharge Type Information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="methodCode" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The recharge method code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="methodGroup" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The recharge method group.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="methodType" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The recharge method type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="channelCode" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The recharge channel code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="rcgType" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>The recharge type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="splitRcgSeq" type="xsd:int" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>The split recharge sequence.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ReturningCCRechargeMethodInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Uses this recharge method as the input datatype
+				when invoking the RPL API for performing recharge using credit card
+				on file.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_prepaid_prepaidmanagement_xsd:CashRechargeMethodInfoType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Uses 
+					this recharge method as the input datatype when invoking the RPL API for 
+					performing recharge using credit card on file.</xsd:documentation> </xsd:annotation>-->
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="SubscriberPrimaryResourceType">
+    <xsd:annotation>
+      <xsd:documentation>Contains details for Subscriber's CTN information.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="primaryResourceType" type="enterprise_prepaid_prepaidmanagement_xsd:PrimaryResourceTypeType">
+        <xsd:annotation>
+          <xsd:documentation>The primary resource type such as MDN.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="primaryResourceValue" type="enterprise_common_xsd:CtnType">
+        <xsd:annotation>
+          <xsd:documentation>The CTN of the subscriber.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TaxItemInfoType">
+    <xsd:annotation>
+      <xsd:documentation>The Calculated Tax Items.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="taxCode" type="enterprise_prepaid_prepaidmanagement_xsd:TaxCodeType">
+        <xsd:annotation>
+          <xsd:documentation>The tax code.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxAmount" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>The tax amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxRate" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>The tax rate.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxType" type="enterprise_prepaid_prepaidmanagement_xsd:TaxTypeType">
+        <xsd:annotation>
+          <xsd:documentation>The tax type (for example, C99).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxAuthority" type="enterprise_prepaid_prepaidmanagement_xsd:TaxAuthorityType">
+        <xsd:annotation>
+          <xsd:documentation>The tax authority (for example, 01).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxableAmount" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>The taxable amount.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="exemptionType" type="enterprise_prepaid_prepaidmanagement_xsd:ExemptionTypeType">
+        <xsd:annotation>
+          <xsd:documentation>The exemption type.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="effectiveDate" type="xsd:date">
+        <xsd:annotation>
+          <xsd:documentation>The tax effective date.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="attributeList" type="enterprise_prepaid_prepaidmanagement_xsd:AttributeListType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>A list of name-value tax qualifiers.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="TaxItemsType">
+    <xsd:annotation>
+      <xsd:documentation>The tax details as returned by Invoicing calculate
+				Tax API.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="identifier" type="enterprise_prepaid_prepaidmanagement_xsd:IdentifierType">
+        <xsd:annotation>
+          <xsd:documentation>Identifier.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="subIdentifier" type="enterprise_prepaid_prepaidmanagement_xsd:SubIdentifierType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Sub Identifier.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="taxItemInfoList" type="enterprise_prepaid_prepaidmanagement_xsd:TaxItemInfoType" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>An Array of the Calculated Tax Items.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="CustomerOfferInfoResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Provides the results of the customer offer and balance</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="Balance" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>Balance of the customer</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NextRcDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Next RC Date of the customer</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SubscriberInfo" type="enterprise_prepaid_prepaidmanagement_xsd:SubscriberInfoType" nillable="true" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>Array of Subscriber Information</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="NetAmtDue" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>Total MRC due on NAD considering balance and multiline discount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="Pcn" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation>Prepaid Bucket Id of customer</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="BalExpDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Balance Expiration date of customer</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="LastRcgDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Depicts the date when last ‘Recharge or Payment’/’MRC deduction’/’Adjustment’/’Manual Update of Balance Expiration date’ occurred</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="AnnivDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Anniversary date of customer</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="SubscriberInfoType">
+    <xsd:sequence>
+      <xsd:element name="FirstMRC" type="xsd:byte">
+        <xsd:annotation>
+          <xsd:documentation>First MRC Indicator</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SubscriberStatus" type="xsd:byte">
+        <xsd:annotation>
+          <xsd:documentation>Subscriber Status from CM</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OfferDetailsInfo" type="enterprise_prepaid_prepaidmanagement_xsd:OfferDetailsInfoType" nillable="true" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>Offer Information</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="PrimResourceVal" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>MDN Value of subscriber</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ActivationDueAmt" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>For a new subscriber, it will depict the activation amount due, including ML discount if applicable</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SubCreationDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Subscriber Creation Date</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="SubStatusDate" type="xsd:dateTime" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Subscriber Status change date from CM</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="OfferDetailsInfoType">
+    <xsd:sequence>
+      <xsd:element name="DiscountAmt" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>Discount amount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="DiscountType" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Discount Type</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OfferDesc" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Offer Description</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OfferId" type="xsd:int">
+        <xsd:annotation>
+          <xsd:documentation>Offer ID</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OfferInstance" type="xsd:long">
+        <xsd:annotation>
+          <xsd:documentation>Offer Instance</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OfferLevel" type="xsd:byte">
+        <xsd:annotation>
+          <xsd:documentation>The level of the service can be C (subscriber-level service) or G (group-level service)</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="OfferName" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Name of BO/PO</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RCFrq" type="xsd:byte">
+        <xsd:annotation>
+          <xsd:documentation>Frequency of offer: Monthly/Daily</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="RcAmt" type="xsd:double">
+        <xsd:annotation>
+          <xsd:documentation>RC Amount</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="ServiceType" type="xsd:byte">
+        <xsd:annotation>
+          <xsd:documentation>Defines the type of the service (e.g., Price Plan, Regular SOC, Promotional PP, etc.).</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+  </xsd:complexType>
+  <!--Exceptions-->
+  <xsd:element name="PrepaidManagementException" type="enterprise_prepaid_prepaidmanagement_xsd:PrepaidManagementExceptionType"/>
+  <xsd:complexType name="PrepaidManagementExceptionType">
+    <xsd:annotation>
+      <xsd:documentation>Prepaid recharge exception extension based on USCC
+				fault definition.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="enterprise_common_xsd:ServiceExceptionType">
+        <!--Removed the below annotation and added above <xsd:annotation> <xsd:documentation>Prepaid 
+					recharge exception extension based on USCC fault definition.</xsd:documentation> 
+					</xsd:annotation>-->
+        <xsd:sequence/>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

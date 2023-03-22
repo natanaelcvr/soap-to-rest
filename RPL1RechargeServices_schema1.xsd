@@ -1,0 +1,923 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema xmlns:tns="http://rPL1RechargeServices.api.interfaces.sessions.rpm.aif.amdocs" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="http://rPL1RechargeServices.api.interfaces.sessions.rpm.aif.amdocs" version="1.0">
+	<xs:element name="RPMException" type="tns:RPMException"/>
+	<xs:element name="cancelRecharge" type="tns:cancelRecharge"/>
+	<xs:element name="cancelRechargeResponse" type="tns:cancelRechargeResponse"/>
+	<xs:element name="l9RechargeService" type="tns:l9RechargeService"/>
+	<xs:element name="l9RechargeServiceResponse" type="tns:l9RechargeServiceResponse"/>
+	<xs:element name="rechargeServiceBaseVoucherRechargeMethod" type="tns:rechargeServiceBaseVoucherRechargeMethod"/>
+	<xs:element name="rechargeServiceBaseVoucherRechargeMethodResponse" type="tns:rechargeServiceBaseVoucherRechargeMethodResponse"/>
+	<xs:complexType name="baseLeftAmountRechargeMethod" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="ppsActCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseRegularRechargeMethod" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRechargeMethod">
+				<xs:sequence>
+					<xs:element name="amount" type="xs:double"/>
+					<xs:element name="currency" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseRechargeMethod" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="paySourceId" type="xs:string" minOccurs="0"/>
+					<xs:element name="paySourceType" type="xs:byte" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="abstractDatatype" abstract="true">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:complexType name="chequeRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="bankAcctNumber" type="xs:string"/>
+					<xs:element name="bankBranchNumber" type="xs:string"/>
+					<xs:element name="bankCode" type="xs:string"/>
+					<xs:element name="chequeId" type="xs:string"/>
+					<xs:element name="coverDebitInd" type="xs:byte" minOccurs="0"/>
+					<xs:element name="l9TaxAmount" type="xs:double" minOccurs="0"/>
+					<xs:element name="l9TaxGeoCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxItems" type="tns:rpl9TaxResponseInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9TaxResponseInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="objectIdentifier" type="xs:int"/>
+					<xs:element name="objectSubIdentifier" type="xs:int" minOccurs="0"/>
+					<xs:element name="QTaxItemInfoList" type="tns:rpl9TaxItemInfo" nillable="true" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9TaxItemInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="dynamicAttributeLis" type="xs:string" minOccurs="0"/>
+					<xs:element name="effectiveDate" type="xs:dateTime"/>
+					<xs:element name="exemptionType" type="xs:byte"/>
+					<xs:element name="taxAmount" type="xs:double"/>
+					<xs:element name="taxAuthority" type="xs:string"/>
+					<xs:element name="taxCode" type="xs:string"/>
+					<xs:element name="taxRate" type="xs:double"/>
+					<xs:element name="taxType" type="xs:string"/>
+					<xs:element name="taxableAmount" type="xs:double"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="cancelSplitRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseCancelRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseCancelRechargeMethod" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRechargeMethod">
+				<xs:sequence>
+					<xs:element name="rechargeId" type="xs:int"/>
+					<xs:element name="requestType" type="xs:byte"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl3WEBChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseChannel" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="l3TransactionID" type="xs:string" minOccurs="0"/>
+					<xs:element name="referenceId" type="xs:string"/>
+					<xs:element name="requestDateTime" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="crmChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="reduceRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="l3ReasonDesc" type="xs:string" minOccurs="0"/>
+					<xs:element name="reasonCode" type="xs:string"/>
+					<xs:element name="reduceType" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtRaterChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9ReturningCreditCardRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:cashRechargeMethodInfo">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="cashRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="coverDebitInd" type="xs:byte" minOccurs="0"/>
+					<xs:element name="l9TaxAmount" type="xs:double" minOccurs="0"/>
+					<xs:element name="l9TaxGeoCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxItems" type="tns:rpl9TaxResponseInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9AgentsChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtBLChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="csrId" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtSplitVoucherRechargeMethod">
+		<xs:complexContent>
+			<xs:extension base="tns:baseVoucherRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseVoucherRechargeMethod" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRechargeMethod">
+				<xs:sequence>
+					<xs:element name="coverDebitInd" type="xs:byte" minOccurs="0"/>
+					<xs:element name="pinNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="selectCriteria" type="xs:string" minOccurs="0"/>
+					<xs:element name="serialNumber" type="xs:string" minOccurs="0"/>
+					<xs:element name="uniqueValue" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="pcnInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBucketIdent">
+				<xs:sequence>
+					<xs:element name="pcn" type="xs:int"/>
+					<xs:element name="pcnPaymentCategory" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseBucketIdent" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl3AdjustMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="reasonCode" type="xs:string"/>
+					<xs:element name="reasonDesc" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtRADChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="channelClientId" type="xs:long" minOccurs="0"/>
+					<xs:element name="radTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="rplTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="sesionId" type="xs:long" minOccurs="0"/>
+					<xs:element name="timeStamp" type="xs:long" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9RcMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:reduceRechargeMethodInfo">
+				<xs:sequence>
+					<xs:element name="l9OfferId" type="xs:int" minOccurs="0"/>
+					<xs:element name="l9OfferInst" type="xs:int" minOccurs="0"/>
+					<xs:element name="l9PendingRCInd" type="xs:byte" minOccurs="0"/>
+					<xs:element name="l9RCDetails" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9RestoreInd" type="xs:byte" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtIVRChannelDetails">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="callerNum" type="xs:string"/>
+					<xs:element name="ivrIdent" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rplChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="atmIdInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBucketIdent">
+				<xs:sequence>
+					<xs:element name="atmBucketId" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9OneTimeCreditCardRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:cashRechargeMethodInfo">
+				<xs:sequence>
+					<xs:element name="l9CCAuthRequestID" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9CCAuthorizationCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9CCExpDate" type="xs:dateTime"/>
+					<xs:element name="l9CCLast4Digits" type="xs:string"/>
+					<xs:element name="l9CCMerchantRefID" type="xs:int"/>
+					<xs:element name="l9CreditCardType" type="xs:string"/>
+					<xs:element name="l9HasNextRecharge" type="xs:byte" minOccurs="0"/>
+					<xs:element name="l9MerchantId" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="bankRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="bankAccountNumber" type="xs:string"/>
+					<xs:element name="bankAccountType" type="xs:byte" minOccurs="0"/>
+					<xs:element name="bankBranchNumber" type="xs:string"/>
+					<xs:element name="bankCode" type="xs:string"/>
+					<xs:element name="checkDigit" type="xs:short" minOccurs="0"/>
+					<xs:element name="coverDebitInd" type="xs:byte" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="atmChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="cdAtmLogId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmLogNum" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmMsgCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmPayRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmSysId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmLoc" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmTrxId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmType" type="xs:byte" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="arChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="externalIdInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBucketIdent">
+				<xs:sequence>
+					<xs:element name="externalId" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtATMChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="cdATMRefrenceId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmLogId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmLogNum" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmMsgCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmPayRef" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmSysId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmLoc" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmTrxId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdAtmTrmType" type="xs:byte" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="splitVoucherRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseVoucherRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtCRMChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="csrId" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9LowBalanceRechargeInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:creditCardRechargeMethodInfo">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="creditCardRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="coverDebitInd" type="xs:byte"/>
+					<xs:element name="creditCardExpDate" type="xs:dateTime"/>
+					<xs:element name="creditCardNumber" type="xs:string"/>
+					<xs:element name="creditCardType" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtLeftAmountNegativeRechargeMethod">
+		<xs:complexContent>
+			<xs:extension base="tns:baseLeftAmountRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtARChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="raterChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="subscriberPrimaryResourceInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseSubscriberIdent">
+				<xs:sequence>
+					<xs:element name="primaryResourceType" type="xs:string"/>
+					<xs:element name="primaryResourceValue" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="baseSubscriberIdent" abstract="true">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="increaseRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="calcExpDateInd" type="xs:byte" minOccurs="0"/>
+					<xs:element name="increaseType" type="xs:string" minOccurs="0"/>
+					<xs:element name="l3ReasonDesc" type="xs:string" minOccurs="0"/>
+					<xs:element name="reasonCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="subscriberIdentInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseSubscriberIdent">
+				<xs:sequence>
+					<xs:element name="subscriberNo" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl3POSChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl3USSDChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="leftAmountPositiveRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseLeftAmountRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl3PcnNameInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBucketIdent">
+				<xs:sequence>
+					<xs:element name="pcnName" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="voucherRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseVoucherRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="increaseRechargeRCMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="calcExpDateInd" type="xs:byte"/>
+					<xs:element name="coverDebitInd" type="xs:byte"/>
+					<xs:element name="increaseType" type="xs:string"/>
+					<xs:element name="reasonCode" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtLeftAmountPositiveRechargeMethod">
+		<xs:complexContent>
+			<xs:extension base="tns:baseLeftAmountRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="radChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="channelClientId" type="xs:long" minOccurs="0"/>
+					<xs:element name="radTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="rplTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="sessionId" type="xs:long" minOccurs="0"/>
+					<xs:element name="timeStamp" type="xs:long" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtIVRChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ivrChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtVRChannelDetails">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="callerNum" type="xs:string"/>
+					<xs:element name="ivrIdent" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtCMChannel">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence>
+					<xs:element name="csrId" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="dtVoucherRechargeMethod">
+		<xs:complexContent>
+			<xs:extension base="tns:baseVoucherRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="cancelRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseCancelRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="pinRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="coverDebitInd" type="xs:byte" minOccurs="0"/>
+					<xs:element name="rpmPin" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9ShopsChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="cmChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9OTCRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:reduceRechargeMethodInfo">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="leftAmountNegativeRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseLeftAmountRechargeMethod">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="bucketIdentInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseBucketIdent">
+				<xs:sequence>
+					<xs:element name="bucketId" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="blChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="usageRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="calcExpDateInd" type="xs:byte"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="loanRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseRegularRechargeMethod">
+				<xs:sequence>
+					<xs:element name="loanType" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9InCommVoucherRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:cashRechargeMethodInfo">
+				<xs:sequence>
+					<xs:element name="l9HasNextRecharge" type="xs:byte" minOccurs="0"/>
+					<xs:element name="l9VoucherID" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9ExternalRefillCardRechargeMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:cashRechargeMethodInfo">
+				<xs:sequence>
+					<xs:element name="l9HasNextRecharge" type="xs:byte" minOccurs="0"/>
+					<xs:element name="l9VoucherID" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9ESBChannelInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:baseChannel">
+				<xs:sequence/>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rpl9BillReducerCreditMethodInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:increaseRechargeMethodInfo">
+				<xs:sequence>
+					<xs:element name="l9TaxAmount" type="xs:double" minOccurs="0"/>
+					<xs:element name="l9TaxGeoCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxItems" type="tns:rpl9TaxResponseInfo" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="cancelRecharge">
+		<xs:sequence>
+			<xs:element name="baseChannel" type="tns:baseChannel"/>
+			<xs:element name="baseCancelRechargeMethod" type="tns:baseCancelRechargeMethod"/>
+			<xs:element name="baseBucketIdent" type="tns:baseBucketIdent"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="cancelRechargeResponse">
+		<xs:sequence>
+			<xs:element name="RechargeResult" type="tns:RechargeResult" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="RechargeResult">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="accumulationsAmounts" type="tns:accumulationsAmountsInfo" minOccurs="0"/>
+					<xs:element name="rechargeAmountsInfo" type="tns:rechargeAmountsInfo" minOccurs="0"/>
+					<xs:element name="rechargeBalanceExpirationInfo" type="tns:rechargeBalanceExpirationInfo" minOccurs="0"/>
+					<xs:element name="rechargeBucketInfo" type="tns:rechargeBucketInfo" minOccurs="0"/>
+					<xs:element name="rechargeDatesInfo" type="tns:rechargeDatesInfo" minOccurs="0"/>
+					<xs:element name="rechargeIdentInfo" type="tns:rechargeIdentInfo" minOccurs="0"/>
+					<xs:element name="rechargeLogInfo" type="tns:rechargeLogInfo" minOccurs="0"/>
+					<xs:element name="rechargeStatusInfo" type="tns:rechargeStatusInfo" minOccurs="0"/>
+					<xs:element name="rechargeSubscriberInfo" type="tns:rechargeSubscriberInfo" minOccurs="0"/>
+					<xs:element name="rechargeTypeInfo" type="tns:rechargeTypeInfo" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="accumulationsAmountsInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="addBonusAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="createChargeAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="debtAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="instlAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="loanAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="reduceAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="regBonusAmt" type="xs:double" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeAmountsInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="inputAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="inputCurrency" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxAmount" type="xs:double" minOccurs="0"/>
+					<xs:element name="l9TaxGeoCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxItems" type="xs:string" minOccurs="0"/>
+					<xs:element name="ppsAmt" type="xs:double" minOccurs="0"/>
+					<xs:element name="ppsBalance" type="xs:double" minOccurs="0"/>
+					<xs:element name="ppsNewBalance" type="xs:double" minOccurs="0"/>
+					<xs:element name="rcgChlAmt" type="xs:double" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeBalanceExpirationInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="balExpDateCalc" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="rcgNumOfDays" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeBucketInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="balExpDate" type="xs:dateTime"/>
+					<xs:element name="ban" type="xs:int"/>
+					<xs:element name="ben" type="xs:int"/>
+					<xs:element name="bucketId" type="xs:int"/>
+					<xs:element name="crmExternalId" type="xs:string" minOccurs="0"/>
+					<xs:element name="currency" type="xs:string"/>
+					<xs:element name="customerId" type="xs:int"/>
+					<xs:element name="pcn" type="xs:int"/>
+					<xs:element name="pcnName" type="xs:string"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeDatesInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="logicalDate" type="xs:dateTime"/>
+					<xs:element name="processDate" type="xs:dateTime"/>
+					<xs:element name="rcgRefDate" type="xs:dateTime"/>
+					<xs:element name="rcgReqDate" type="xs:dateTime"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeIdentInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="bucketKey" type="xs:short"/>
+					<xs:element name="periodKey" type="xs:short"/>
+					<xs:element name="rcgId" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeLogInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="cdMainId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdUniqueId" type="xs:string" minOccurs="0"/>
+					<xs:element name="cdVals" type="xs:string" minOccurs="0"/>
+					<xs:element name="clientTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="l9CCAuthRequestID" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9CCAuthorizationCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9CCExpDate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="l9CCLast4Digits" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9CCMerchantRefID" type="xs:int" minOccurs="0"/>
+					<xs:element name="l9CreditCardType" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9MerchantId" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9OfferDetails" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9RcDetails" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxAmount" type="xs:double" minOccurs="0"/>
+					<xs:element name="l9TaxGeoCode" type="xs:string" minOccurs="0"/>
+					<xs:element name="l9TaxItems" type="xs:string" minOccurs="0"/>
+					<xs:element name="radTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="rmdMainId" type="xs:string" minOccurs="0"/>
+					<xs:element name="rmdVals" type="xs:string" minOccurs="0"/>
+					<xs:element name="rplTimeStamp" type="xs:long" minOccurs="0"/>
+					<xs:element name="subIdVals" type="xs:string" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeStatusInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="cancelRcgType" type="xs:byte" minOccurs="0"/>
+					<xs:element name="cdCancelRefId" type="xs:string" minOccurs="0"/>
+					<xs:element name="lastStsUpdate" type="xs:dateTime" minOccurs="0"/>
+					<xs:element name="rcgStatus" type="xs:byte"/>
+					<xs:element name="relRcgId" type="xs:int" minOccurs="0"/>
+					<xs:element name="relRcgType" type="xs:byte" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeSubscriberInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="primaryResourceType" type="xs:string"/>
+					<xs:element name="primaryResourceValue" type="xs:string"/>
+					<xs:element name="subscriberNo" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeTypeInfo">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="channelCode" type="xs:string"/>
+					<xs:element name="methodCode" type="xs:string"/>
+					<xs:element name="methodGroup" type="xs:string"/>
+					<xs:element name="methodType" type="xs:string"/>
+					<xs:element name="rcgType" type="xs:byte"/>
+					<xs:element name="splitRcgSeq" type="xs:int" minOccurs="0"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="RPMException">
+		<xs:sequence>
+			<xs:element name="mErrorParams" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="mMsgRepository" type="tns:messageRepository" minOccurs="0"/>
+			<xs:element name="mCategory" type="tns:acmErrorCategory" minOccurs="0"/>
+			<xs:element name="mAttachedExceptions" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="mSeverity" type="xs:int"/>
+			<xs:element name="mIsPublished" type="xs:boolean"/>
+			<xs:element name="clientVisible" type="xs:boolean"/>
+			<xs:element name="mIsResubmitable" type="xs:boolean"/>
+			<xs:element name="formattedMessage" type="xs:string" minOccurs="0"/>
+			<xs:element name="formattedLogMessage" type="xs:string" minOccurs="0"/>
+			<xs:element name="attachedMessages" type="xs:string" minOccurs="0"/>
+			<xs:element name="formattedMode" type="xs:byte"/>
+			<xs:element name="lastFormattingMode" type="xs:byte"/>
+			<xs:element name="message" type="xs:string" minOccurs="0"/>
+			<xs:element name="mRcgErrId" type="tns:rpmseq" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="messageRepository" abstract="true">
+		<xs:sequence>
+			<xs:element name="messageId" type="xs:string" minOccurs="0"/>
+			<xs:element name="bundleName" type="xs:string" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="acmErrorCategory" final="extension restriction">
+		<xs:sequence/>
+	</xs:complexType>
+	<xs:complexType name="rpmseq">
+		<xs:complexContent>
+			<xs:extension base="tns:abstractDatatype">
+				<xs:sequence>
+					<xs:element name="rpmseq" type="xs:int"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="rechargeServiceBaseVoucherRechargeMethod">
+		<xs:sequence>
+			<xs:element name="baseChannel" type="tns:baseChannel"/>
+			<xs:element name="baseVoucherRechargeMethod" type="tns:baseVoucherRechargeMethod"/>
+			<xs:element name="baseBucketIdent" type="tns:baseBucketIdent"/>
+			<xs:element name="baseSubscriberIdent" type="tns:baseSubscriberIdent" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="rechargeServiceBaseVoucherRechargeMethodResponse">
+		<xs:sequence>
+			<xs:element name="RechargeResult" type="tns:RechargeResult" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l9RechargeService">
+		<xs:sequence>
+			<xs:element name="baseChannel" type="tns:baseChannel"/>
+			<xs:element name="baseRegularRechargeMethod" type="tns:baseRegularRechargeMethod"/>
+			<xs:element name="subscriberPrimaryResourceInfo" type="tns:subscriberPrimaryResourceInfo"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="l9RechargeServiceResponse">
+		<xs:sequence>
+			<xs:element name="RechargeResult" type="tns:RechargeResult" minOccurs="0"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

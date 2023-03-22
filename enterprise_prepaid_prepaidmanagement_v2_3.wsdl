@@ -1,0 +1,230 @@
+<!-- 
+Jira_Tracking_ID: DevJIRA-IPE-153
+Build_Label: JDeveloperBuild
+Build_Date: 2019-07-10T10:40:46.097-0500
+--><wsdl:definitions name="enterprise_prepaid_prepaidmanagement" targetNamespace="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_0" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:enterprise_prepaid_prepaidmanagement="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_0" xmlns:enterprise_prepaid_prepaidmanagement_xsd="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types" xmlns:enterprise_messageheader_xsd="http://services.uscellular.com/schema/enterprise/messageheader/v1_0/types" xmlns:enterprise_prepaid_prepaidmanagement_messages="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/messages">
+  <wsdl:documentation>ESB IDD#165 IDD#2012.</wsdl:documentation>
+  <wsdl:types>
+    <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" version="v2_2" targetNamespace="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_0">
+      <xsd:import namespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types"
+                  schemaLocation="enterprise_prepaid_prepaidmanagement_types_v2_3.xsd"/>
+      <xsd:import namespace="http://services.uscellular.com/schema/enterprise/messageheader/v1_0/types" schemaLocation="../../InfraCommon/Interfaces/enterprise_messageheader_types_v1_0.xsd"/>
+      <xsd:import namespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/messages"
+                  schemaLocation="enterprise_prepaid_prepaidmanagement_messages_v2_3.xsd"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="PrepaidManagementExceptionMsg">
+    <wsdl:documentation>Prepaid recharge exception extension based on USCC fault definition.</wsdl:documentation>
+    <wsdl:part name="PrepaidManagementException" element="enterprise_prepaid_prepaidmanagement_xsd:PrepaidManagementException"/>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_getSubscriberBalanceDetails_RequestMsg">
+    <wsdl:part name="parameters" element="enterprise_prepaid_prepaidmanagement_messages:getSubscriberBalanceDetails_Request">
+      <wsdl:documentation>Subscriber's MDN information to be sent in the request.</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_getSubscriberBalanceDetails_ResponseMsg">
+    <wsdl:part name="result" element="enterprise_prepaid_prepaidmanagement_messages:getSubscriberBalanceDetails_Response"/>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_replenish_RequestMsg">
+    <wsdl:part name="parameters" element="enterprise_prepaid_prepaidmanagement_messages:replenish_Request">
+      <wsdl:documentation>Channel and Bucket information, CTN number for BaseVoucher recharge request type.</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_replenish_ResponseMsg">
+    <wsdl:part name="result" element="enterprise_prepaid_prepaidmanagement_messages:replenish_Response"/>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_cancelReplenish_RequestMsg">
+    <wsdl:part name="parameters" element="enterprise_prepaid_prepaidmanagement_messages:cancelReplenish_Request">
+      <wsdl:documentation>Agent Channel Information, Bucket information and cancel recharge information</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_cancelReplenish_ResponseMsg">
+    <wsdl:part name="result" element="enterprise_prepaid_prepaidmanagement_messages:cancelReplenish_Response">
+      <wsdl:documentation>Information about recharge. Accumulated amount, recharge amount, recharge date, BucketInfo
+      Rechargetype and recharge status.</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_recharge_RequestMsg">
+    <wsdl:part name="parameters" element="enterprise_prepaid_prepaidmanagement_messages:recharge_Request">
+      <wsdl:documentation>Channel and Bucket information, CTN number for BaseVoucher recharge request type.</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_recharge_ResponseMsg">
+    <wsdl:part name="result" element="enterprise_prepaid_prepaidmanagement_messages:recharge_Response"/>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_getCustomerOffersInfo_RequestMsg">
+    <wsdl:part name="parameters" element="enterprise_prepaid_prepaidmanagement_messages:getCustomerOffersInfo_Request">
+      <wsdl:documentation>Subscriber’s MDN Information</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="PrepaidManagement_v2_0_getCustomerOffersInfo_ResponseMsg">
+    <wsdl:part name="result" element="enterprise_prepaid_prepaidmanagement_messages:getCustomerOffersInfo_Response">
+      <wsdl:documentation>offer and balance details of a customer</wsdl:documentation>
+    </wsdl:part>
+    <wsdl:part name="messageHeader" element="enterprise_messageheader_xsd:MessageHeader">
+      <wsdl:documentation>Standard OSB audit message header.</wsdl:documentation>
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PrepaidManagement_v2_0_Port">
+    <wsdl:documentation> This interface supports the recharge payment methods via Self Service: voucher,
+                            credit/debit card and cash, which is available only for dealers. This interface also supports RPL's View All Subscriber Balance details API
+                            and will be used by client applications to fetch the subscriber details like Subscriber's balance, bucket information, last recharge date etc.</wsdl:documentation>
+    <wsdl:operation name="getSubscriberBalanceDetails">
+      <wsdl:documentation> Subscriber balance details inquiry.</wsdl:documentation>
+      <wsdl:input message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getSubscriberBalanceDetails_RequestMsg" name="getSubscriberBalanceDetailsRequest"/>
+      <wsdl:output message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getSubscriberBalanceDetails_ResponseMsg" name="getSubscriberBalanceDetailsResponse"/>
+      <wsdl:fault message="enterprise_prepaid_prepaidmanagement:PrepaidManagementExceptionMsg" name="PrepaidManagementExceptionMsg">
+        <wsdl:documentation>Standard OSB Exception Message Type.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="replenish">
+      <wsdl:documentation> Replenish a prepaid account. Cash, card, account credit and voucher recharge is supported by this operation.</wsdl:documentation>
+      <wsdl:input message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_replenish_RequestMsg" name="replenishRequest"/>
+      <wsdl:output message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_replenish_ResponseMsg" name="replenishResponse"/>
+      <wsdl:fault message="enterprise_prepaid_prepaidmanagement:PrepaidManagementExceptionMsg" name="PrepaidManagementExceptionMsg">
+        <wsdl:documentation>Standard OSB Exception Message Type.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cancelReplenish">
+      <wsdl:documentation> Cancel replenish for a prepaid account.</wsdl:documentation>
+      <wsdl:input message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_cancelReplenish_RequestMsg" name="cancelReplenishRequest"/>
+      <wsdl:output message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_cancelReplenish_ResponseMsg" name="cancelReplenishResponse"/>
+      <wsdl:fault message="enterprise_prepaid_prepaidmanagement:PrepaidManagementExceptionMsg" name="PrepaidManagementExceptionMsg">
+        <wsdl:documentation>Standard OSB Exception Message Type.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="recharge">
+      <wsdl:documentation> Recharge service.</wsdl:documentation>
+      <wsdl:input message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_recharge_RequestMsg" name="rechargeRequest"/>
+      <wsdl:output message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_recharge_ResponseMsg" name="rechargeResponse"/>
+      <wsdl:fault message="enterprise_prepaid_prepaidmanagement:PrepaidManagementExceptionMsg" name="PrepaidManagementExceptionMsg">
+        <wsdl:documentation>Standard OSB Exception Message Type.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerOffersInfo">
+      <wsdl:documentation> Offer and Balance details of a customer.</wsdl:documentation>
+      <wsdl:input message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getCustomerOffersInfo_RequestMsg" name="getCustomerOffersInfoRequest"/>
+      <wsdl:output message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getCustomerOffersInfo_ResponseMsg" name="getCustomerOffersInfoResponse"/>
+      <wsdl:fault message="enterprise_prepaid_prepaidmanagement:PrepaidManagementExceptionMsg" name="PrepaidManagementExceptionMsg">
+        <wsdl:documentation>Standard OSB Exception Message Type.</wsdl:documentation>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PrepaidManagement_v2_0_Binding" type="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_Port">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getSubscriberBalanceDetails">
+      <wsdl:documentation> Subscriber balance details inquiry.</wsdl:documentation>
+      <soap:operation soapAction="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_0#PrepaidManagement_v2_0_Binding.getSubscriberBalanceDetails" style="document"/>
+      <wsdl:input name="getSubscriberBalanceDetailsRequest">
+        <soap:body use="literal" parts="parameters"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getSubscriberBalanceDetails_RequestMsg" use="literal" part="messageHeader"/>
+      </wsdl:input>
+      <wsdl:output name="getSubscriberBalanceDetailsResponse">
+        <soap:body use="literal" parts="result"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getSubscriberBalanceDetails_ResponseMsg" use="literal" part="messageHeader"/>
+      </wsdl:output>
+      <wsdl:fault name="PrepaidManagementExceptionMsg">
+        <soap:fault name="PrepaidManagementExceptionMsg" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="replenish">
+      <wsdl:documentation> Replenish a prepaid account.</wsdl:documentation>
+      <soap:operation soapAction="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_1#PrepaidManagement_v2_0_Binding.replenish" style="document"/>
+      <wsdl:input name="replenishRequest">
+        <soap:body use="literal" parts="parameters"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_replenish_RequestMsg" use="literal" part="messageHeader"/>
+      </wsdl:input>
+      <wsdl:output name="replenishResponse">
+        <soap:body use="literal" parts="result"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_replenish_ResponseMsg" use="literal" part="messageHeader"/>
+      </wsdl:output>
+      <wsdl:fault name="PrepaidManagementExceptionMsg">
+        <soap:fault name="PrepaidManagementExceptionMsg" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="cancelReplenish">
+      <wsdl:documentation> Cancel replenish for a prepaid account.</wsdl:documentation>
+      <soap:operation soapAction="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_1#PrepaidManagement_v2_0_Binding.cancelReplenish" style="document"/>
+      <wsdl:input name="cancelReplenishRequest">
+        <soap:body use="literal" parts="parameters"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_cancelReplenish_RequestMsg" use="literal" part="messageHeader"/>
+      </wsdl:input>
+      <wsdl:output name="cancelReplenishResponse">
+        <soap:body use="literal" parts="result"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_cancelReplenish_ResponseMsg" use="literal" part="messageHeader"/>
+      </wsdl:output>
+      <wsdl:fault name="PrepaidManagementExceptionMsg">
+        <soap:fault name="PrepaidManagementExceptionMsg" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="recharge">
+      <wsdl:documentation> Voucher recharge service.</wsdl:documentation>
+      <soap:operation soapAction="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_1#PrepaidManagement_v2_0_Binding.recharge" style="document"/>
+      <wsdl:input name="rechargeRequest">
+        <soap:body use="literal" parts="parameters"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_recharge_RequestMsg" use="literal" part="messageHeader"/>
+      </wsdl:input>
+      <wsdl:output name="rechargeResponse">
+        <soap:body use="literal" parts="result"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_recharge_ResponseMsg" use="literal" part="messageHeader"/>
+      </wsdl:output>
+      <wsdl:fault name="PrepaidManagementExceptionMsg">
+        <soap:fault name="PrepaidManagementExceptionMsg" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+    <wsdl:operation name="getCustomerOffersInfo">
+      <wsdl:documentation> getCustomerOffersInfo service.</wsdl:documentation>
+      <soap:operation soapAction="http://services.uscellular.com/wsdl/enterprise/prepaid/prepaidmanagement/v2_1#PrepaidManagement_v2_0_Binding.getCustomerOffersInfo" style="document"/>
+      <wsdl:input name="getCustomerOffersInfoRequest">
+        <soap:body use="literal" parts="parameters"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getCustomerOffersInfo_RequestMsg" use="literal" part="messageHeader"/>
+      </wsdl:input>
+      <wsdl:output name="getCustomerOffersInfoResponse">
+        <soap:body use="literal" parts="result"/>
+        <soap:header message="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_getCustomerOffersInfo_ResponseMsg" use="literal" part="messageHeader"/>
+      </wsdl:output>
+      <wsdl:fault name="PrepaidManagementExceptionMsg">
+        <soap:fault name="PrepaidManagementExceptionMsg" use="literal"/>
+      </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PrepaidManagement_v2_0">
+    <wsdl:documentation>SOAP over HTTP Web Service Binding for Interface PrepaidManagement_v2_0. This is a pass through service, and all data 
+      elements will be forwarded as is from RPL to the clients or service consumers.The service retrieves subscriber information and performs 
+      update on B/OSS-RPL.Credit card replenishment is done.The service is used for
+          1. Replenish a prepaid account using credit card, cash or account credit.
+          2. Cancel or void replenishment performed earlier by debting the recharge amount  from the subscriber???s balance.
+          3. To replenish a prepaid account using a voucher.
+          4. To retrieve the balance of a prepaid account. </wsdl:documentation>
+    <wsdl:port name="PrepaidManagement_v2_0_Port" binding="enterprise_prepaid_prepaidmanagement:PrepaidManagement_v2_0_Binding">
+      <soap:address location="http://localhost:9080/enterprise/prepaid/prepaidmanagement/v2_2"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

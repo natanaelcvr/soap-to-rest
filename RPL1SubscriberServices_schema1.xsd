@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.amdocs" xmlns:tns="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.amdocs" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns1="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.aif.amdocs">
+
+  <xs:import namespace="http://rPL1SubscriberServices.api.interfaces.sessions.rpm.aif.amdocs" schemaLocation="RPL1SubscriberServices_schema2.xsd"/>
+
+  <xs:element name="ACMException" type="tns:ACMException"/>
+
+  <xs:element name="RPMException" type="tns:RPMException"/>
+
+  <xs:complexType name="RPMException">
+    <xs:complexContent>
+      <xs:extension base="tns:ACMException">
+        <xs:sequence>
+          <xs:element name="message" type="xs:string" minOccurs="0"/>
+          <xs:element name="mRcgErrId" type="ns1:rpmseq" minOccurs="0"/>
+        </xs:sequence>
+      </xs:extension>
+    </xs:complexContent>
+  </xs:complexType>
+
+  <xs:complexType name="ACMException">
+    <xs:sequence>
+      <xs:element name="mErrorParams" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mMsgRepository" type="ns1:messageRepository" minOccurs="0"/>
+      <xs:element name="mCategory" type="ns1:acmErrorCategory" minOccurs="0"/>
+      <xs:element name="mAttachedExceptions" type="xs:anyType" nillable="true" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="mSeverity" type="xs:int"/>
+      <xs:element name="mIsPublished" type="xs:boolean"/>
+      <xs:element name="clientVisible" type="xs:boolean"/>
+      <xs:element name="mIsResubmitable" type="xs:boolean"/>
+      <xs:element name="formattedMessage" type="xs:string" minOccurs="0"/>
+      <xs:element name="formattedLogMessage" type="xs:string" minOccurs="0"/>
+      <xs:element name="attachedMessages" type="xs:string" minOccurs="0"/>
+      <xs:element name="formattedMode" type="xs:byte"/>
+      <xs:element name="lastFormattingMode" type="xs:byte"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+
