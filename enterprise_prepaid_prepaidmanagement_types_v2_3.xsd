@@ -6,7 +6,7 @@ Build_Date: 2019-07-10T10:40:46.097-0500
   <xsd:annotation>
     <xsd:documentation>ESB IDD#165 IDD#2012.</xsd:documentation>
   </xsd:annotation>
-  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v1_0/types" schemaLocation="../../InfraCommon/Interfaces/enterprise_common_types_v1_0.xsd"/>
+  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v1_0/types" schemaLocation="enterprise_common_types_v1_0.xsd"/>
   <!--Types-->
   <xsd:simpleType name="BucketIdType">
     <xsd:annotation>
