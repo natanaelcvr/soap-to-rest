@@ -9,9 +9,9 @@ Build_Date: 2019-07-10T10:40:46.097-0500
                             This interface also supports RPL's View All Subscriber Balance details API and will be used by client applications to fetch the 
                             subscriber details like Subscriber's balance, bucket information, last recharge date etc.</xsd:documentation>
   </xsd:annotation>
-  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/prepaid/prepaidmanagement/v2_0/types"
+  <xsd:import namespace="https://github.com/natanaelcvr/soap-to-rest"
               schemaLocation="enterprise_prepaid_prepaidmanagement_types_v2_3.xsd"/>
-  <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v2_0/types" schemaLocation="../../InfraCommon/Interfaces/enterprise_common_types_v2_0.xsd"/>
+  <xsd:import namespace="https://github.com/natanaelcvr/soap-to-rest" schemaLocation="enterprise_common_types_v2_0.xsd"/>
   <xsd:element name="getSubscriberBalanceDetails_Request" type="enterprise_prepaid_prepaidmanagement_messages:getSubscriberBalanceDetails_RequestType"/>
   <xsd:annotation>
     <xsd:documentation>Complex type for Subscriber's MDN information</xsd:documentation>
