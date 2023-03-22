@@ -1,0 +1,23 @@
+<!-- 
+Jira_Tracking_ID: JIRA-IEP-10
+Build_Label: JDeveloperBuild
+Build_Date: 2021-04-13T16:20:01.663-0500
+-->
+<!-- October 12, 2011 --><wsdl:definitions name="common_faults" targetNamespace="http://services.uscellular.com/wsdl/common/v1_0/faults" xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:enterprise_common_xsd="http://services.uscellular.com/schema/enterprise/common/v1_0/types">
+
+   <wsdl:documentation>Common data types across all the enterprise services.
+                         This schema definition should contain the common types
+                         and elements organized in an alphabetical oder.
+                         Version: 1.0</wsdl:documentation>
+
+   <wsdl:types>
+      <xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" version="v1_0" targetNamespace="http://services.uscellular.com/wsdl/common/v1_0/faults">
+         <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v1_0/types" schemaLocation="enterprise_common_types_v1_0.xsd"/>
+      </xsd:schema>
+   </wsdl:types>
+
+   <wsdl:message name="ServiceExceptionMsg">
+      <wsdl:documentation>Base exception definition used in ESB enterprise services.</wsdl:documentation>
+      <wsdl:part name="ServiceException" element="enterprise_common_xsd:ServiceException"/>
+   </wsdl:message>
+</wsdl:definitions>

@@ -1,0 +1,317 @@
+<!-- 
+Jira_Tracking_ID: JIRA-IEP-10
+Build_Label: JDeveloperBuild
+Build_Date: 2021-04-13T16:20:01.663-0500
+-->
+<xsd:schema elementFormDefault="qualified" attributeFormDefault="unqualified" version="v1_0" targetNamespace="http://services.uscellular.com/schema/enterprise/messageheader/v1_0/types" xmlns:enterprise_messageheader_xsd="http://services.uscellular.com/schema/enterprise/messageheader/v1_0/types" xmlns:enterprise_common_xsd="http://services.uscellular.com/schema/enterprise/common/v1_0/types" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+   <xsd:import namespace="http://services.uscellular.com/schema/enterprise/common/v1_0/types" schemaLocation="enterprise_common_types_v1_0.xsd"/>
+
+   <!-- Types            -->
+
+   <xsd:complexType name="ActivityStatusType">
+      <xsd:annotation>
+         <xsd:documentation>The status of the processing ( Success, failure, etc ).</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleContent>
+         <xsd:extension base="enterprise_messageheader_xsd:ActivityStatusEnumType">
+            <xsd:attribute name="qualifier" type="xsd:string" use="optional">
+               <xsd:annotation>
+                  <xsd:documentation>Additional detail to qualify the activity status.</xsd:documentation>
+               </xsd:annotation>
+            </xsd:attribute>
+         </xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+
+   <xsd:simpleType name="PriorityType">
+      <xsd:annotation>
+         <xsd:documentation>Indicates message-handling priority for asynchronous messages. It must be in the range 0-9 (lowest-highest).</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:int">
+         <xsd:pattern value="\d{1}"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+
+   <xsd:simpleType name="UscSecurityTokenType">
+      <xsd:annotation>
+         <xsd:documentation>US Cellular custom security token.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:base64Binary">
+         <xsd:maxLength value="64"/>
+      </xsd:restriction>
+   </xsd:simpleType>
+
+   <!-- Structures       -->
+
+   <xsd:complexType name="AnyListType">
+      <xsd:annotation>
+         <xsd:documentation>A generic list of any type of elements. Used for vendor extensions or loose element encapsulation from other namespaces.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:any minOccurs="0" maxOccurs="unbounded" processContents="lax" namespace="##any"/>
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="FunctionalIdentifiersType">
+      <xsd:annotation>
+         <xsd:documentation>Any functional identifiers to be passed in appropriate for the current service.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="customerID" type="enterprise_common_xsd:CustomerIdType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>The internal customer Id.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="bar" type="enterprise_common_xsd:BarType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>The billing arrangement Id.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="faId" type="enterprise_common_xsd:FaIdType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>The financial account Id ( customer account# on the customer bill ).</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="ctn" type="enterprise_common_xsd:CtnType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>The cellular telephone number.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="subscriberId" type="enterprise_common_xsd:SubscriberIdType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>The subscriber id.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="ban" type="enterprise_common_xsd:BanType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>DEPRECATED. The CARES account number.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="functionalKeyValuePairs" type="enterprise_messageheader_xsd:KeyValueType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+               <xsd:documentation>Generic key/value pairs that can be set by the caller to pass additional non-processed data in the request.
+               This information will simply be returned in the response.
+               </xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:complexType name="KeyValueType">
+      <xsd:annotation>
+         <xsd:documentation>Generic key/value pair used to transport various attributes.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="key" type="xsd:string">
+            <xsd:annotation>
+               <xsd:documentation>Key value.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="value" type="xsd:string">
+            <xsd:annotation>
+               <xsd:documentation>Data value associated with the Key field</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+   </xsd:complexType>
+
+   <xsd:element name="MessageHeader" type="enterprise_messageheader_xsd:MessageHeaderType">
+      <xsd:annotation>
+         <xsd:documentation>                    MTOSI Style Standard Header, USCC extensions.  
+                    The clientID and uscSecurityToken must be set by the caller.
+                    The transactionId, processingHint and clientExtensions may also be set in the request, 
+                    Except for the uscSecurityToken, these fields will be returned in the response header unchanged. 
+                    All other fields are used internally / overwritten by the OSB and may be set in the response header.  
+                    The response header may also contain a correlationId and/or sequenceNumber if set by the service provider or OSB.</xsd:documentation>
+      </xsd:annotation>
+   </xsd:element>
+   <xsd:complexType name="MessageHeaderType">
+      <xsd:annotation>
+         <xsd:documentation>                    MTOSI Style Standard Header, USCC extensions.  
+                    The clientID and uscSecurityToken must be set by the caller.
+                    The transactionId, processingHint and clientExtensions may also be set in the request, 
+                    Except for the uscSecurityToken, these fields will be returned in the response header unchanged. 
+                    All other fields are used internally / overwritten by the OSB and may be set in the response header.  
+                    The response header may also contain a correlationId and/or sequenceNumber if set by the service provider or OSB.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+         <xsd:element name="activityStatus" type="enterprise_messageheader_xsd:ActivityStatusType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>                                    Specifies the high-level response status for an activity. 
+                                    Required for response messages, including error responses.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="activityName" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>                                    Identifies the name of the business
+                                    transaction activity for the message
+                                    being exchanged. The value is usually
+                                    the name of the mTOP operation, e.g.
+                                    getInventory. This value corresponds to
+                                    the 'operation' in the WSDL.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="msgName" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>                                    Identifies the name of the message (or
+                                    contract) that is being exchanged as
+                                    part of an activity. E.g.
+                                    getInventoryResponse. This field
+                                    corresponds to the message name in the
+                                    WSDL.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="msgType" type="enterprise_messageheader_xsd:MsgTypeType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>                                    The type of message ( i.e. request, response, etc ).</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="msgID" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>                                    Meassage Id represents individual
+                                    request-response pair from a client to
+                                    OSB. This is used in auditing the request
+                                    response from in OSB.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="clientId" type="xsd:string">
+            <xsd:annotation>
+               <xsd:documentation>                                    Unique USCC genrated ID for client
+                                    system requesting service from OSB This
+                                    ID is used to grant acess level for
+                                    clients in OSB.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="uscSecurityToken" type="enterprise_messageheader_xsd:UscSecurityTokenType">
+            <xsd:annotation>
+               <xsd:documentation>US Cellular custom security token.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="priority" type="enterprise_messageheader_xsd:PriorityType" minOccurs="0" default="4">
+            <xsd:annotation>
+               <xsd:documentation>                                    Indicates message-handling priority for
+                                    asynchronous messages. It must be in the
+                                    range 0-9 (lowest-highest). Default: 4</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="processingHint" type="enterprise_messageheader_xsd:ProcessingHintType" minOccurs="0" default="UNSPECIFIED">
+            <xsd:annotation>
+               <xsd:documentation>Hint to the middleware of how the client desires the message to be processed.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="clientExtensions" type="enterprise_messageheader_xsd:KeyValueType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:annotation>
+               <xsd:documentation>                                    Location for all vendor extensions or
+                                    header fields that are not defined in
+                                    the USCC standard header.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="correlationId" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>Correlation ID, if set by service provider.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="requestTimestamp" type="xsd:dateTime" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>Message originating timestamp.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="responseTimestamp" type="xsd:dateTime" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>Message response timestamp.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="transactionId" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>                                    An identifier that could be set by the
+                                    originator of an asynchronous
+                                    synchronous conversational request that
+                                    will allow it to correlate the response
+                                    to the request. If this field is set, it
+                                    should be reflected in the header of the
+                                    response message. Not required for
+                                    notification headers.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="sequenceNumber" type="xsd:unsignedLong" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>Message sequence number, when available.  A value of 0 indicates no sequence or a reset/wrap of the in-progress sequence.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="tracePoint" type="xsd:string" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>Internal OSB field used for tracepoint tracking.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+         <xsd:element name="functionalIdentifiers" type="enterprise_messageheader_xsd:FunctionalIdentifiersType" minOccurs="0">
+            <xsd:annotation>
+               <xsd:documentation>Any internal functional identifiers helpful for the service context.</xsd:documentation>
+            </xsd:annotation>
+         </xsd:element>
+      </xsd:sequence>
+      <xsd:anyAttribute processContents="lax" namespace="##other"/>
+   </xsd:complexType>
+
+   <!-- Enumerations     -->
+
+   <xsd:simpleType name="ActivityStatusEnumType">
+      <xsd:annotation>
+         <xsd:documentation>                    Specifies the high-level response status for an
+                    activity. Required for response messages, including
+                    error responses.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="SUCCESS">
+            <xsd:annotation><xsd:documentation>The activity was successfully completed.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="FAILED">
+            <xsd:annotation><xsd:documentation>The activity was not successfully completed.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="WARNING">
+            <xsd:annotation><xsd:documentation>The activity was successfully completed, but a potential problem may exist.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="QUEUED">
+            <xsd:annotation><xsd:documentation>The activity was queued for later processing.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+      </xsd:restriction>
+   </xsd:simpleType>
+
+   <xsd:simpleType name="MsgTypeType">
+      <xsd:annotation>
+         <xsd:documentation>The type of the message that is being exchanged as part of an activity.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="REQUEST">
+            <xsd:annotation><xsd:documentation>Message representing a request for data or to perform some activity.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="RESPONSE">
+            <xsd:annotation><xsd:documentation>Message representing the result of a REQUEST.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="NOTIFICATION">
+            <xsd:annotation><xsd:documentation>Message representing a notification of some activity.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="ERROR">
+            <xsd:annotation><xsd:documentation>Message representing a failed result.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+      </xsd:restriction>
+   </xsd:simpleType>
+
+   <xsd:simpleType name="ProcessingHintType">
+      <xsd:annotation>
+         <xsd:documentation>Hint to the middleware of how the client desires the message to be processed.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="BATCH">
+            <xsd:annotation><xsd:documentation>Hint to process contents of message in batch.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="REALTIME">
+            <xsd:annotation><xsd:documentation>Hint to process contents of message in realtime.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+         <xsd:enumeration value="UNSPECIFIED">
+            <xsd:annotation><xsd:documentation>Processing hint is explicitly not specified.</xsd:documentation></xsd:annotation>
+         </xsd:enumeration>
+      </xsd:restriction>
+   </xsd:simpleType>
+
+</xsd:schema>
